@@ -4,7 +4,7 @@ Title: Orthogonal Bspline Basis Functions
 Version: 0.1.0
 Date: 3/21/2009
 Author: Andrew Redd	
-Depends: methods
+Depends: methods, stats, graphics
 Maintainer: Andrew Redd <aredd@stat.tamu.edu>
 Description: Represents the basis functions for Bsplines in a simple matrix formulation that facilitates, taking integrals, derivatives, and orthogonalizing the basis functions.
 License: GPL (>= 2)

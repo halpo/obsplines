@@ -1,14 +1,17 @@
 
 importFrom("graphics","plot")
+importFrom("stats","deriv")
 
 exportClasses(	
 	"SplineBasis",
 	"OrthogonalSplineBasis" )
 			
 exportMethods(
+	"deriv",
 	"dim",
 	"evaluate",
-	"orthogonalize")
+	"orthogonalize",
+	"plot")
 	
 export(
 	"SplineBasis",
