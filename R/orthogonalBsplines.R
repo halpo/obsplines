@@ -115,6 +115,8 @@ OuterProdSecondDerivative<-function(basis){
 	OPSD
 }
 
+
+
 #  Basis Methods
 setGeneric("orthogonalize",function(object,...)standardGeneric("orthogonalize"))
 setMethod("orthogonalize",signature("SplineBasis"),OrthogonalizeBasis,valueClass="OrthogonalSplineBasis")
