@@ -1,4 +1,4 @@
-setClass("SplineBasis",representation(knots="numeric", order="integer", Matrices="array", weights="numeric"))
+setClass("SplineBasis",representation(knots="numeric", order="integer", Matrices="array"))
 setClass("OrthogonalSplineBasis", representation("SplineBasis", transformation="matrix"))
 
 SplineBasis<-function(knots, order=4, keep.duplicates=FALSE) { 
@@ -15,7 +15,7 @@ SplineBasis<-function(knots, order=4, keep.duplicates=FALSE) {
 	for(i in order:(n-order)) {  #Identifying interior intervals
 		M2[,,i-order+1]<-M[,,i]%*%I_Sel(i,order,n)
 	}
-	new("SplineBasis", knots=knots, order=as.integer(order), Matrices=M2, weights = rep(1,n-1))
+	new("SplineBasis", knots=knots, order=as.integer(order), Matrices=M2)
 }
 OrthogonalizeBasis<-function(object,...){
 	obase<-new("OrthogonalSplineBasis",object)
@@ -51,7 +51,6 @@ EvaluateBasis<-function(object,x,...) {
 		M<-object@Matrices
 		knots<-object@knots
 		order<-object@order
-		w<-object@weights
 		if(x < knots[order] | x>knots[length(knots)-order+1])return(rep(NA,dim(object)[2]))
 		ind<- x<knots
 		if(all(ind)|all(!ind))  {
@@ -63,24 +62,50 @@ EvaluateBasis<-function(object,x,...) {
 		i<-which(ind)[1]-1
 		u<-(x-knots[i])/(knots[i+1]-knots[i])
 		U<-u^(0:(order-1))
-		return(w[i]*U%*%M[,,i-order+1])
+		return(U%*%M[,,i-order+1])
 	}
 } 
 deriv.SplineBasis<-function(object,l=1) {
-	d<-dim(object)
+	dnew<-d<-dim(object)
 	DM<-DerivativeMatrix(d[1])
 	M<-object@Matrices
 	k<-object@order
 	knots<- object@knots
+	n<-length(knots)
 	
-	N<-array(0,dim=d)
+	dnew[1]=d[1]-l
+	N<-array(0,dim=dnew)
+	w<-(diff(knots)[k:(n-k)])^-l
 	for( i in 1:d[3]) { 
-		N[,,i]<-t(MatrixPower(DM,l))%*%M[,,i]
+		N[,,i]<-(w[i]*t(MatrixPower(DM,l))%*%M[,,i])[seq(d[1]-l),]
 	}
 	
-	w<-object@weights*diff(knots)^-l
-	new("SplineBasis",knots=knots, order=object@order, Matrices=N, weights=w)
+	newknots<-knots[seq((l+1),(n-l))]
+	order=object@order-l
+	new("SplineBasis",knots=newknots, order=as.integer(order), Matrices=N)
 }
+setMethod("deriv", signature("SplineBasis"), function(expr,...)deriv.SplineBasis(object=expr,...))
+integrate.SplineBasis<-function(object,...){
+	dnew<-d<-dim(object)
+	M<-object@Matrices
+	k<-object@order
+	knots<- object@knots
+	n<-length(knots)
+	
+	dnew[1]=d[1]+1
+	N<-array(0,dim=dnew)
+	w<-(diff(knots)[k:(n-k)])
+	for( i in 1:d[3]) { 
+		if(i>1)for(j in 1:i){
+			N[,,i]<-N[,,i]+rbind(0,w[j]*M[,,i])
+		}
+		N[,,i]<-N[,,i]+rbind(0,w[i]*t(diag(1/(1:k)))%*%M[,,i])
+	}
+	newknots<-knots[c(1,seq(n),n)]
+	order=object@order+1L
+	new("SplineBasis",knots=newknots, order=as.integer(order), Matrices=N)
+}
+setMethod("integrate", signature("SplineBasis"), function(expr,...)deriv.SplineBasis(object=expr,...))
 
 
 print.SplineBasis<-function(object) { 
@@ -126,7 +151,6 @@ setMethod("show","OrthogonalSplineBasis",print.OrthogonalSplineBasis)
 setGeneric("evaluate",function(object, x,...)standardGeneric("evaluate"))
 setMethod("evaluate",signature("SplineBasis","numeric"),function(object, x, ...)EvaluateBasis(object=object, x=x, ...))
 setMethod("plot",signature(x="SplineBasis",y="missing"),plot.SplineBasis)
-setMethod("deriv", signature("SplineBasis"), function(expr,...)deriv.SplineBasis(object=expr,...))
 
 #Other Helper Functions
 DerivativeMatrix<-function(n){
