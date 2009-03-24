@@ -93,14 +93,18 @@ integrate.SplineBasis<-function(object,...){
 	n<-length(knots)
 	
 	dnew[1]=d[1]+1
-	N<-array(0,dim=dnew)
 	w<-(diff(knots)[k:(n-k)])
-	for( i in 1:d[3]) { 
-		if(i>1)for(j in 1:i){
-			N[,,i]<-N[,,i]+rbind(0,w[j]*M[,,i])
-		}
-		N[,,i]<-N[,,i]+rbind(0,w[i]*t(diag(1/(1:k)))%*%M[,,i])
+	
+	N<-array(0,dim=dnew)
+	for(i in 1:d[3]){
+		N[,,i]<-rbind( if(i>1)(rep(1,k+1))%*%N[,,i-1] else 0,w[i]*t(diag(1/(1:k)))%*%M[,,i] )
 	}
+	
+	# for( i in 1:d[3]) { 
+		# if(i>1)for(j in 1:i){
+			# N[1,,i]<-N[1,,i]+w[j]*(1/(1:k))%*%M[,,i]
+		# }
+	# }
 	newknots<-knots[c(1,seq(n),n)]
 	order=object@order+1L
 	new("SplineBasis",knots=newknots, order=as.integer(order), Matrices=N)
