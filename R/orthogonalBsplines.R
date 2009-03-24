@@ -41,7 +41,10 @@ OrthogonalizeBasis<-function(object,...){
 	return(obase)
 }
 OrthogonalSplineBasis<-function(knots,order=4)OrthogonalizeBasis(SplineBasis(knots,order))
+setGeneric("orthogonalize",function(object,...)standardGeneric("orthogonalize"))
+setMethod("orthogonalize",signature("SplineBasis"),OrthogonalizeBasis,valueClass="OrthogonalSplineBasis")
 dim.SplineBasis<-function(x)dim(x@Matrices)
+setMethod("dim","SplineBasis", dim.SplineBasis)
 EvaluateBasis<-function(object,x,...) { 
 	stopifnot(is.numeric(x))
 	dots<-list(...)
@@ -55,16 +58,18 @@ EvaluateBasis<-function(object,x,...) {
 		ind<- x<knots
 		if(all(ind)|all(!ind))  {
 			if(x==knots[length(knots)-order+1]) 
-				return(rep(1,order)%*%M[,,dim(M)[3]]) 
+				return(rep(1,order)%*%matrix(M[,,dim(M)[3]],nrow=order)) 
 			else 
 				return(rep(0,n+1))
 		}
 		i<-which(ind)[1]-1
 		u<-(x-knots[i])/(knots[i+1]-knots[i])
 		U<-u^(0:(order-1))
-		return(U%*%M[,,i-order+1])
+		return(U%*%matrix(M[,,i-order+1],nrow=order))
 	}
 } 
+setGeneric("evaluate",function(object, x,...)standardGeneric("evaluate"))
+setMethod("evaluate",signature("SplineBasis","numeric"),function(object, x, ...)EvaluateBasis(object=object, x=x, ...))
 deriv.SplineBasis<-function(object,l=1) {
 	dnew<-d<-dim(object)
 	DM<-DerivativeMatrix(d[1])
@@ -100,17 +105,12 @@ integrate.SplineBasis<-function(object,...){
 		N[,,i]<-rbind( if(i>1)(rep(1,k+1))%*%N[,,i-1] else 0,w[i]*t(diag(1/(1:k)))%*%M[,,i] )
 	}
 	
-	# for( i in 1:d[3]) { 
-		# if(i>1)for(j in 1:i){
-			# N[1,,i]<-N[1,,i]+w[j]*(1/(1:k))%*%M[,,i]
-		# }
-	# }
 	newknots<-knots[c(1,seq(n),n)]
 	order=object@order+1L
 	new("SplineBasis",knots=newknots, order=as.integer(order), Matrices=N)
 }
-setMethod("integrate", signature("SplineBasis"), function(expr,...)deriv.SplineBasis(object=expr,...))
-
+setGeneric("integrate",function(object,...)standardGeneric("integrate"))
+setMethod("integrate",signature("SplineBasis"),integrate.SplineBasis)
 
 print.SplineBasis<-function(object) { 
 	cat("Spline Basis\n")
@@ -119,19 +119,28 @@ print.SplineBasis<-function(object) {
 		"Knots: ",paste(object@knots,collapse=" "),"\n",sep="")
 	invisible(object)
 }
+setMethod("show","SplineBasis",print.SplineBasis)
 print.OrthogonalSplineBasis<-function(object) { 
 	cat("Orthogonalized ")
 	invisible(print.SplineBasis(object))
 }
-plot.SplineBasis<-function(x,y,xlab, ylab, main,...) { 
-	basis<-x
+setMethod("show","OrthogonalSplineBasis",print.OrthogonalSplineBasis)
+plot.SplineBasis<-function(x,y,xlab=NULL,ylab=NULL,main='Basis Functions', type='l', ...) { 
 	dots<-list(...)
-	plotdata<-seq(basis@knots[basis@order],basis@knots[length(basis@knots)-basis@order+1],length=1000)
-	xlabel<-if(!hasArg(xlab))"" else dots$xlab
-	ylabel<-if(!hasArg(ylab))"Basis Functions" else dots$ylab
-	ptitle<-if(!hasArg(main)) paste(substitute(x)) else dots$main
-	matplot(plotdata,evaluate(basis,as(plotdata,"numeric")),type='l',xlab=xlabel,ylab=ylabel,main=ptitle,...)
+	dots$x<-plotdata<-seq(x@knots[x@order],x@knots[length(x@knots)-x@order+1],length=1000)
+	dots$y<-evaluate(x,as(plotdata,"numeric"))
+	if(is.null(xlab)) xlab<-'' 
+	if(is.null(ylab)) ylab<-''
+	# if(!hasArg(ylab)) dots$ylab<-"Basis Functions" 
+	# if(!hasArg(main)) dots$main<-as.character(substitute(x,as.environment(-1))) 
+	# if(!hasArg(type)) dots$type<-'l'
+	# browser()
+	
+	# do.call("matplot",dots)
+	matplot(plotdata,evaluate(x,as(plotdata,"numeric")),type='l',xlab=xlab,ylab=ylab,main=main,...)
 }
+setMethod("plot",signature(x="SplineBasis",y="missing"),plot.SplineBasis)
+
 OuterProdSecondDerivative<-function(basis){
 	M<-basis@Matrices
 	k<-basis@order
@@ -144,19 +153,7 @@ OuterProdSecondDerivative<-function(basis){
 	OPSD
 }
 
-
-
-#  Basis Methods
-setGeneric("orthogonalize",function(object,...)standardGeneric("orthogonalize"))
-setMethod("orthogonalize",signature("SplineBasis"),OrthogonalizeBasis,valueClass="OrthogonalSplineBasis")
-setMethod("dim","SplineBasis", dim.SplineBasis)
-setMethod("show","SplineBasis",print.SplineBasis)
-setMethod("show","OrthogonalSplineBasis",print.OrthogonalSplineBasis)
-setGeneric("evaluate",function(object, x,...)standardGeneric("evaluate"))
-setMethod("evaluate",signature("SplineBasis","numeric"),function(object, x, ...)EvaluateBasis(object=object, x=x, ...))
-setMethod("plot",signature(x="SplineBasis",y="missing"),plot.SplineBasis)
-
-#Other Helper Functions
+#Helper Functions
 DerivativeMatrix<-function(n){
 	A<-rbind(0,diag(x=1,nrow=n-1,ncol=n))
 	B<-diag(1:n,nrow=n,ncol=n)
@@ -216,4 +213,5 @@ Henkel<-function(x,nrow=length(x),ncol=length(x)){
 	Z
 }
 
+#Aliasing
 OBasis<-function(...)OrthogonalSplineBasis(...)
