@@ -15,13 +15,14 @@ exportMethods(
 	"plot")
 	
 export(
-	"SplineBasis",
+	"fitLS",
+	"Henkel",
+	"MatrixPower",
 	"OrthogonalizeBasis",
 	"OrthogonalSplineBasis",
 	"OuterProdSecondDerivative",
 	"OBasis",
-	"MatrixPower",
-	"Henkel" )
+	"SplineBasis" )
 	
 S3Method(dim,SplineBasis)
 S3Method(print,SplineBasis)

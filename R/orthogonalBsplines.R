@@ -152,6 +152,14 @@ OuterProdSecondDerivative<-function(basis){
 	for(i in 1:d[3])OPSD<-OPSD+di[i]*t(M[,,i])%*%D2%*%Delta%*%t(D2)%*%M[,,i]
 	OPSD
 }
+fitLS<-function(object, x, y, penalty=0){
+	stopifnot(is(object,"SplineBasis"))
+	stopifnot(is(x,"numeric"))
+	stopifnot(is(y,"numeric"))
+	B<-evaluate(object,x)
+	solve(crossprod(B)+penalty*OuterProdSecondDerivative(object),crossprod(B,y))
+}
+
 
 #Helper Functions
 DerivativeMatrix<-function(n){
