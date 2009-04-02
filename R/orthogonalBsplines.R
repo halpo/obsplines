@@ -21,7 +21,7 @@ OrthogonalizeBasis<-function(object,...){
 	obase<-new("OrthogonalSplineBasis",object)
 	M<-object@Matrices
 	k<-object@order
-	Delta<-1/Henkel(1:(2*k-1),k,k)
+	Delta<-1/Hankel(1:(2*k-1),k,k)
 	
 	di<-diff(object@knots[(k):(length(object@knots)-k+1)])
 	d<-dim(M)
@@ -40,7 +40,7 @@ OrthogonalizeBasis<-function(object,...){
 
 	return(obase)
 }
-OrthogonalSplineBasis<-function(knots,order=4)OrthogonalizeBasis(SplineBasis(knots,order))
+OrthogonalSplineBasis<-function(knots,...)OrthogonalizeBasis(SplineBasis(knots,...))
 setGeneric("orthogonalize",function(object,...)standardGeneric("orthogonalize"))
 setMethod("orthogonalize",signature("SplineBasis"),OrthogonalizeBasis,valueClass="OrthogonalSplineBasis")
 dim.SplineBasis<-function(x)dim(x@Matrices)
@@ -60,7 +60,7 @@ EvaluateBasis<-function(object,x,...) {
 			if(x==knots[length(knots)-order+1]) 
 				return(rep(1,order)%*%matrix(M[,,dim(M)[3]],nrow=order)) 
 			else 
-				return(rep(0,n+1))
+				return(rep(0,ncol(object)))
 		}
 		i<-which(ind)[1]-1
 		u<-(x-knots[i])/(knots[i+1]-knots[i])
@@ -145,7 +145,7 @@ OuterProdSecondDerivative<-function(basis){
 	M<-basis@Matrices
 	k<-basis@order
 	d<-dim(M)
-	Delta<-1/Henkel(1:(2*k-1),k,k)
+	Delta<-1/Hankel(1:(2*k-1),k,k)
 	D2<-MatrixPower(DerivativeMatrix(k),2)
 	OPSD<-0
 	di<-diff(basis@knots[(k):(length(basis@knots)-k+1)])
@@ -213,7 +213,7 @@ class(MFinal)<-'SplineMatrices'
 
 MFinal
 }
-Henkel<-function(x,nrow=length(x),ncol=length(x)){
+Hankel<-function(x,nrow=length(x)%/%2,ncol=length(x)%/%2){
 	Z<-matrix(x[1:ncol],nrow=nrow,ncol=ncol,byrow=T)
 	for(i in 1:(nrow-1)){
 		Z[i+1,]<-x[-(1:i)][1:ncol]

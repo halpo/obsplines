@@ -16,7 +16,7 @@ exportMethods(
 	
 export(
 	"fitLS",
-	"Henkel",
+	"Hankel",
 	"MatrixPower",
 	"OrthogonalizeBasis",
 	"OrthogonalSplineBasis",
