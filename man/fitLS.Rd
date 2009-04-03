@@ -16,11 +16,11 @@ fitLS(object, x, y, penalty = 0)
   \item{penalty}{ The penalty multiplier. }
 }
 \details{
-	For numeric vector y, and x, and a set of basis functions, represented in \code{object}, defined on the knots $(k_0,...,k_m)$.
-	The likelihood is defined by\[
+	For numeric vector y, and x, and a set of basis functions, represented in \code{object}, defined on the knots \eqn{(k_0,\ldots,k_m)}.
+	The likelihood is defined by\deqn{
 	\sum\limits_{i=1}^n(y_i-b(x_i)\mu) + \int\limits_{k_0}^{k_m} \mu^Tb^{\prime\prime}(t)^Tb^{\prime\prime}(t)\mu dt
-	\]
-	The fucntion estimates $\mu$.
+	}{sum_i (y_i-b(x_i)mu) + integral mu^T b''(t)^T b''(t) mu dt}
+	The fucntion estimates \eqn{\mu}.
 }
 \value{
   a vector of the control points.

@@ -9,14 +9,14 @@
 }
 \usage{
 	SplineBasis(knots, order=4, keep.duplicates=FALSE)
-	OrthogonalSplineBasis(knots, ...)
-	OBasis(...)
+	OrthogonalSplineBasis(knots, \dots)
+	OBasis(\dots)
 }
 \arguments{
 	\item{knots}{The full set of knots used to define the basis functions.}
 	\item{order}{Order of the spline fit.(degree= order-1)}
 	\item{keep.duplicates}{Should duplicate interior knots that could cause computation problem be kept or removed.  Defaults to false, which removes duplicate knots with a warning if duplicate interior knots are found.}
-	\item{...}{Other arguments either ignored or passed onto other functions.}
+	\item{\dots}{Other arguments either ignored or passed onto other functions.}
 }
 \details{
 	\code{SplineBasis} produces an object representing the basis functions used in spline fitting.  Provides a compact easily evaluated representation of the functions.  Produces a class of object \code{SplineBasis}.
@@ -29,7 +29,7 @@
 \code{\linkS4class{SplineBasis}}, \code{\link{spline}}, \link{orthogonalsplinebasis-package}
 }
 \references{
-\emph{General matrix representations for Bsplines} KaihuaiQin, The Visual Computer 2000 16:177–186
+\emph{General matrix representations for Bsplines} KaihuaiQin, The Visual Computer 2000 16:177--186
 }
 \examples{
 knots<-c(0,0,0,0:10,10,10,10)

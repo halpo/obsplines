@@ -5,7 +5,7 @@
   Specific function for orthogonalizing the functions in a  SplineBasis object.
 }
 \usage{
-OrthogonalizeBasis(object, ...)
+OrthogonalizeBasis(object, \dots)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
