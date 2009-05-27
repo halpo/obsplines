@@ -220,6 +220,13 @@ Hankel<-function(x,nrow=length(x)%/%2,ncol=length(x)%/%2){
 	}
 	Z
 }
-
+expand.knots<-function(interior, order=4){
+	knots<-interior[c(
+	rep(1,order-1),
+	seq(length(interior)),
+	rep(length(interior),order-1))]
+	attr(knots,'order')<-order
+	knots
+}
 #Aliasing
 OBasis<-function(...)OrthogonalSplineBasis(...)

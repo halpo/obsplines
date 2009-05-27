@@ -15,6 +15,7 @@ exportMethods(
 	"plot")
 	
 export(
+	"expand.knots",
 	"fitLS",
 	"Hankel",
 	"MatrixPower",
