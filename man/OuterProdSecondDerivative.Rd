@@ -12,14 +12,10 @@ OuterProdSecondDerivative(basis)
 \arguments{
   \item{basis}{A SplineBasis object}
 }
-\details{
- }
 \value{
   A square matrix of order nrow(basis).
 }
 \author{ Andrew Redd <aredd at stat.tamu.edu> }
 \seealso{ \code{\linkS4class{SplineBasis}},\code{\link{fitLS}} }
-\examples{
-}
 \keyword{ array }
 \keyword{ math }
