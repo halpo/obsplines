@@ -25,7 +25,7 @@ export(
 	"OBasis",
 	"SplineBasis" )
 	
-S3Method(dim,SplineBasis)
-S3Method(print,SplineBasis)
-S3Method(print,OrthogonalSplineBasis)
-S3Method(plot,SplineBasis)
+# S3Method(dim,SplineBasis)
+# S3Method(print,SplineBasis)
+# S3Method(print,OrthogonalSplineBasis)
+# S3Method(plot,SplineBasis)
