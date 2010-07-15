@@ -55,7 +55,7 @@ EvaluateBasis<-function(object,x,...) {
 		knots<-object@knots
 		order<-object@order
 		if(x < knots[order] | x>knots[length(knots)-order+1])return(rep(NA,dim(object)[2]))
-		ind<- x<knots
+		if(x==knots[length(knots)-order+1]){ ind <- x<=knots } else { ind <- x<knots }
 		if(all(ind)|all(!ind))  {
 			if(x==knots[length(knots)-order+1]) 
 				return(rep(1,order)%*%matrix(M[,,dim(M)[3]],nrow=order)) 
