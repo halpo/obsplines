@@ -23,7 +23,8 @@ export(
 	"OrthogonalSplineBasis",
 	"OuterProdSecondDerivative",
 	"OBasis",
-	"SplineBasis" )
+	"SplineBasis",
+	"GramMatrix" )
 	
 # S3Method(dim,SplineBasis)
 # S3Method(print,SplineBasis)

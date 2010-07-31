@@ -17,28 +17,27 @@ SplineBasis<-function(knots, order=4, keep.duplicates=FALSE) {
 	}
 	new("SplineBasis", knots=knots, order=as.integer(order), Matrices=M2)
 }
-OrthogonalizeBasis<-function(object,...){
-	obase<-new("OrthogonalSplineBasis",object)
+GramMatrix<-function(object){
 	M<-object@Matrices
 	k<-object@order
 	Delta<-1/Hankel(1:(2*k-1),k,k)
-	
 	di<-diff(object@knots[(k):(length(object@knots)-k+1)])
 	d<-dim(M)
 	s<-matrix(0,d[2],d[2])
 	for(i in 1:d[3]) { 
 		s<-s+di[i]*t(M[,,i])%*%Delta%*%M[,,i]
 	}
+	return(s)
+}
+OrthogonalizeBasis<-function(object,...){
+	d<-dim(M)
+	s<-GramMatrix(object)
 	L<-solve(chol(s))
 	N<-M
 	for( i in 1:d[3]) { 
 		N[,,i]<-M[,,i]%*%L
 	}
-	
-	obase@Matrices<-N
-	obase@transformation<-L
-
-	return(obase)
+	return(new("OrthogonalSplineBasis", knots=object@knots, order=as.integer(object@order), Matrices=N, transformation=L))
 }
 OrthogonalSplineBasis<-function(knots,...)OrthogonalizeBasis(SplineBasis(knots,...))
 setGeneric("orthogonalize",function(object,...)standardGeneric("orthogonalize"))
