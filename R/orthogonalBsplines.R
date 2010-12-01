@@ -30,10 +30,11 @@ GramMatrix<-function(object){
 	return(s)
 }
 OrthogonalizeBasis<-function(object,...){
-	d<-dim(M)
 	s<-GramMatrix(object)
 	L<-solve(chol(s))
+	M<-object@Matrices
 	N<-M
+	d<-dim(M)
 	for( i in 1:d[3]) { 
 		N[,,i]<-M[,,i]%*%L
 	}
