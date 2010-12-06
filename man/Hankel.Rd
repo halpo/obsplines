@@ -30,7 +30,6 @@ Hankel(x, nrow = length(x)\%/\%2, ncol = length(x)\%/\%2)
 \value{
   a matrix as defined above.
 }
-\references{ ~put references to the literature/web site here ~ }
 \author{Andrew Redd <aredd at stat.tamu.edu>}
 
 % \seealso{ ~~objects to See Also as \code{\link{help}}, ~~~ }
