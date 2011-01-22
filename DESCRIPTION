@@ -1,7 +1,7 @@
 Package: orthogonalsplinebasis
 Type: Package
 Title: Orthogonal Bspline Basis Functions
-Version: 0.1.4
+Version: 0.1.5
 Date: 7/10/2010
 Author: Andrew Redd	
 Depends: methods, stats, graphics
