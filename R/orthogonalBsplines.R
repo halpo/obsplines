@@ -178,7 +178,7 @@ fitLS<-function(object, x, y, penalty=0){
 }
 
 setGeneric("penaltyMatrix",function(object, ...)standardGeneric("penaltyMatrix"))
-setMethod("penaltyMatrix",signature("SplineBasis"),OuterProdSecondDerivative)
+setMethod("penaltyMatrix",signature("SplineBasis"),function(object,...)OuterProdSecondDerivative(object))
 
 
 
