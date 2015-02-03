@@ -1,4 +1,4 @@
-
+import(methods)
 importFrom("graphics","plot")
 importFrom("stats","deriv","integrate")
 
