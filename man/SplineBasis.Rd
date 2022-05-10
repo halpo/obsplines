@@ -3,7 +3,7 @@
 \alias{OrthogonalSplineBasis}
 \alias{OBasis}
 
-\title{Creating and SplineBasis Objects.}
+\title{Creating \code{SplineBasis} Objects.}
 \description{
 	The function to create \code{SplineBasis} and \code{OrthogonalSplineBasis} Objects
 }
@@ -20,16 +20,16 @@
 }
 \details{
 	\code{SplineBasis} produces an object representing the basis functions used in spline fitting.  Provides a compact easily evaluated representation of the functions.  Produces a class of object \code{SplineBasis}.
-	\code{OrthogonalSplineBasis} is a shortcut to obtain a set of orthogonalized basis functions from the knots. \code{OBasis} is an alias for \code{OrthogonalSplineBasis}. Both provide an object of class \code{OrthogonalSplineBasis}.  The class \code{OrthogonalSplineBasis} inherits directly from \code{SplineBasis} meaning all functions that apply to SplineBasis functions also apply to the orthogonalized version.
+	\code{OrthogonalSplineBasis} is a shortcut to obtain a set of orthogonalized basis functions from the knots. \code{OBasis} is an alias for \code{OrthogonalSplineBasis}. Both provide an object of class \code{OrthogonalSplineBasis}.  The class \code{OrthogonalSplineBasis} inherits directly from \code{SplineBasis} meaning all functions that apply to \code{SplineBasis} functions also apply to the orthogonalized version.
 }
 \value{
- Object of class SplineBasis or OrthogonalSplineBasis
+ Object of class \code{SplineBasis} or \code{OrthogonalSplineBasis}
 }
 \seealso{
 \code{\linkS4class{SplineBasis}}, \code{\link{spline}}, \link{orthogonalsplinebasis-package}
 }
 \references{
-\emph{General matrix representations for Bsplines} KaihuaiQin, The Visual Computer 2000 16:177--186
+\emph{General matrix representations for B-splines} Kaihuai, Qin, The Visual Computer 2000 16:177--186
 }
 \examples{
 knots<-c(0,0,0,0:10,10,10,10)

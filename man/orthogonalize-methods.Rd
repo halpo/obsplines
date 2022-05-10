@@ -9,6 +9,6 @@
 \section{Methods}{
 \describe{
 
-\item{object = "SplineBasis"}{ orthogonalizes the spline basis functions. See \code{\link{SplineBasis}}}
+\item{object = "SplineBasis"}{ Orthogonalize the spline basis functions. See \code{\link{SplineBasis}}}
 }}
 \keyword{methods}

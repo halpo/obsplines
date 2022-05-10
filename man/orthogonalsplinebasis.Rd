@@ -3,12 +3,12 @@
 \alias{orthogonalsplinebasis}
 \docType{package}
 \title{A Matrix Representation for Spline Basis Functions}
-\description{This package provides functions for manipluation of spline basis functions.  
-A matrix representation for the basis fucntions is at the center of the functions. 
-The matrix representation simplifies the process of orthogonalization as well as differention and integration.
+\description{This package provides functions for manipulation of spline basis functions.
+A matrix representation for the basis functions is at the center of the functions.
+The matrix representation simplifies the process of orthogonalization as well as differentiation and integration.
 }
 \author{
 	Andrew Redd
-	Maintainer: Andrew Redd <aredd at stat.tamu.edu>
+	Maintainer: Andrew Redd \email{andrew.redd@hsc.utah.edu}
 }
 \keyword{package}

@@ -8,6 +8,6 @@
 }
 \section{Methods}{
 \describe{
-\item{object = "SplineBasis", x = "numeric"}{ Evaluates a SplineBasis object for the spline basis curves at points \code{x}. See \linkS4class{SplineBasis}}
+\item{object = "SplineBasis", x = "numeric"}{ Evaluates a \code{SplineBasis} object for the spline basis curves at points \code{x}. See \linkS4class{SplineBasis}}
 }}
 \keyword{methods}

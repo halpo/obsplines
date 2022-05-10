@@ -2,7 +2,7 @@
 \alias{MatrixPower}
 \title{Matrix Power}
 \description{
-	Performs the matrix power opperation.
+	Performs the matrix power operation.
 }
 \usage{
 MatrixPower(A, n)
@@ -13,12 +13,11 @@ MatrixPower(A, n)
   \item{n}{ An integer telling the exponent.}
 }
 \details{
- Only well defined for integers the matrix power opperation is a convenience function to multipy a matrix, \code{A}, with itself \code{n} times.
+ Only well defined for integers the matrix power operation is a convenience function to multiply a matrix, \code{A}, with itself \code{n} times.
 }
 \value{
-	A matrix of the same dimention as \code{A}.
+	A matrix of the same dimension as \code{A}.
 }
-\author{Andrew Redd <aredd at stat.tamu.edu>}
 \examples{
 A<-rbind(0,cbind(diag(1:5),0))  #a nilpotent matrix
 A
