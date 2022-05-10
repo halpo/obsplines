@@ -3,3 +3,5 @@
 \.Rprofile
 .*gitignore
 .geany
+^.*\.Rproj$
+^\.Rproj\.user$

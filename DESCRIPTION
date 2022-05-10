@@ -1,8 +1,8 @@
 Package: orthogonalsplinebasis
 Type: Package
 Title: Orthogonal B-Spline Basis Functions
-Version: 0.1.6
-Date: 2/03/2015
+Version: 0.1.7
+Date: 2022-05-10
 Author: Andrew Redd
 Depends:
     methods,

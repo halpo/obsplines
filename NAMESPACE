@@ -1,11 +1,12 @@
 import(methods)
 importFrom("graphics","plot")
 importFrom("stats","deriv","integrate")
+importFrom("graphics", "matplot")
 
-exportClasses(	
+exportClasses(
 	"SplineBasis",
 	"OrthogonalSplineBasis" )
-			
+
 exportMethods(
 	"integrate",
 	"deriv",
@@ -13,7 +14,7 @@ exportMethods(
 	"evaluate",
 	"orthogonalize",
 	"plot")
-	
+
 export(
 	"expand.knots",
 	"fitLS",
