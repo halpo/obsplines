@@ -5,3 +5,5 @@
 .geany
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^revdep$
+^cran-comments\.md$
